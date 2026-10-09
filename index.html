@@ -102,6 +102,8 @@
   .desc { margin: 0 0 8px; white-space: pre-line; }
   .course .tags { padding: 0; }
   .course .tag { cursor: default; }
+  .discuss { display: inline-block; margin-top: 10px; font-size: 0.875rem; color: var(--accent); text-decoration: none; }
+  .discuss:hover { text-decoration: underline; }
   .empty { color: var(--muted); text-align: center; padding: 48px 0; }
 
   .featured {
@@ -127,7 +129,8 @@
   <header>
     <h1>ETH AI Safety Courses</h1>
     <p class="lede">Courses at ETH Zurich that are useful for working on AI safety, ranked by the community.
-      <strong>Only upvote courses you have taken.</strong> To upvote, give the course's GitHub issue a 👍 (you need a GitHub account).</p>
+      <strong>Only upvote courses you have taken.</strong> To upvote, give the course's GitHub issue a 👍 (you need a GitHub account).
+      Took one? Comment on its issue with which parts are relevant to AI safety and why. We may work your comments into the description.</p>
     <a class="btn" id="suggest" href="#" target="_blank" rel="noopener">+ Suggest a course</a>
   </header>
 
@@ -200,6 +203,7 @@ function normalize(issues) {
       url: i.html_url,
       created: i.created_at,
       votes: (i.reactions && i.reactions["+1"]) || 0,
+      comments: i.comments || 0,
       ...parseBody(i.body),
     }));
 }
@@ -265,6 +269,7 @@ function render(source) {
         <div class="meta">${meta}</div>
         <p class="desc">${esc(c.description)}</p>
         <div class="tags">${c.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+        <a class="discuss" href="${esc(c.url)}" target="_blank" rel="noopener">💬 ${c.comments ? `${c.comments} comment${c.comments === 1 ? "" : "s"} · ` : ""}Took it? Say which parts matter for AI safety</a>
       </div>
     </li>`;
   }).join("") : `<li class="empty">No courses match.</li>`;

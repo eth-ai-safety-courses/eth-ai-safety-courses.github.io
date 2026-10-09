@@ -7,6 +7,8 @@ on:
     branches: [main]
   issues:
     types: [opened, edited, closed, reopened, deleted, labeled, unlabeled]
+  issue_comment:
+    types: [created, deleted]
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
@@ -38,7 +40,7 @@ jobs:
           cp index.html _site/
           gh api --paginate "repos/${{ github.repository }}/issues?labels=course&state=open&per_page=100" \
             | jq -s 'add | map(select(.pull_request | not))
-                     | map({number, title, body, html_url, created_at, reactions: {"+1": .reactions["+1"]}})' \
+                     | map({number, title, body, html_url, created_at, comments, reactions: {"+1": .reactions["+1"]}})' \
             > _site/courses.json
           echo "$(jq length _site/courses.json) courses"
 
