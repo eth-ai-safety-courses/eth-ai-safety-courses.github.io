@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETH AI Safety Courses</title>
+<meta name="description" content="Community-ranked list of ETH Zurich courses relevant to AI safety.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --surface: #ffffff;
+    --ink: #1c1d1f;
+    --muted: #63666b;
+    --line: #e2e0d9;
+    --accent: #1f407a; /* ETH blue */
+    --accent-soft: #e6ecf6;
+    --vote: #b8471f;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141518;
+      --surface: #1d1f23;
+      --ink: #ececea;
+      --muted: #9a9da3;
+      --line: #2e3136;
+      --accent: #8fb0e8;
+      --accent-soft: #222c3d;
+      --vote: #f08a5d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 Inter, system-ui, sans-serif;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 56px 0 24px; }
+  h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 650;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    line-height: 1.1;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  .lede { color: var(--muted); max-width: 60ch; margin: 0 0 24px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border-radius: 999px;
+    background: var(--accent); color: var(--bg);
+    font-weight: 600; font-size: 0.95rem; text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.1); }
+
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    padding: 16px 0; border-top: 1px solid var(--line);
+    position: sticky; top: 0; background: var(--bg); z-index: 1;
+  }
+  .controls input, .controls select {
+    font: inherit; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+  }
+  .controls input { flex: 1 1 220px; min-width: 0; }
+  .status { color: var(--muted); font-size: 0.85rem; margin-left: auto; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; padding-bottom: 8px; }
+  .tag {
+    font: 500 0.8rem Inter, sans-serif; border: 1px solid var(--line);
+    background: var(--surface); color: var(--muted);
+    border-radius: 999px; padding: 3px 10px; cursor: pointer;
+  }
+  .tag[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+
+  ol { list-style: none; padding: 0; margin: 8px 0 48px; }
+  li.course {
+    display: grid; grid-template-columns: 64px 1fr; gap: 16px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+  }
+  .vote {
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    gap: 2px; padding: 8px 0; border-radius: 10px;
+    border: 1px solid var(--line); color: var(--ink); text-decoration: none;
+    height: max-content;
+  }
+  .vote:hover { border-color: var(--vote); color: var(--vote); }
+  .vote svg { width: 18px; height: 18px; }
+  .vote b { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+  .vote span { font-size: 0.7rem; color: var(--muted); }
+  h2 { font: 600 1.1rem/1.3 Inter, sans-serif; margin: 0 0 4px; }
+  h2 a { color: inherit; text-decoration: none; }
+  h2 a:hover { color: var(--accent); text-decoration: underline; }
+  .meta { color: var(--muted); font-size: 0.875rem; margin-bottom: 8px; }
+  .meta span + span::before { content: " · "; }
+  .desc { margin: 0 0 8px; white-space: pre-line; }
+  .course .tags { padding: 0; }
+  .course .tag { cursor: default; }
+  .empty { color: var(--muted); text-align: center; padding: 48px 0; }
+
+  .featured {
+    margin: 0 0 24px; padding: 20px; border-radius: var(--radius);
+    background: var(--accent-soft); border: 1px solid var(--accent);
+  }
+  .featured .kicker { font: 600 0.75rem Inter, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .featured h2 { font-size: 1.2rem; }
+  .featured p { margin: 4px 0 0; }
+
+  footer { color: var(--muted); font-size: 0.85rem; padding: 0 0 48px; }
+  footer a { color: inherit; }
+
+  @media (max-width: 520px) {
+    header { padding-top: 32px; }
+    li.course { grid-template-columns: 52px 1fr; gap: 12px; padding: 14px; }
+    .status { width: 100%; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ETH AI Safety Courses</h1>
+    <p class="lede">Courses at ETH Zurich that are useful for working on AI safety, ranked by the community.
+      To upvote, give the course's GitHub issue a 👍 (you need a GitHub account).</p>
+    <a class="btn" id="suggest" href="#" target="_blank" rel="noopener">+ Suggest a course</a>
+  </header>
+
+  <section class="featured">
+    <div class="kicker">Start here</div>
+    <h2><a href="https://zurich.aisafety.ch/programmes/ai-safety-fundamentals/" target="_blank" rel="noopener">AI Safety Fundamentals: Zurich AI Safety</a></h2>
+    <div class="meta"><span>Not an ETH course</span><span>6 sessions</span><span>Free</span><span>On site at ETH, aligned with the semester</span></div>
+    <p>ETH has no course on AI safety itself. This independent programme run by Zurich AI Safety fills the gap with small-group discussions of curated readings, covering alignment, RLHF, scalable oversight, robustness, interpretability and technical governance.</p>
+  </section>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search courses, lecturers, topics…" aria-label="Search">
+    <select id="semester" aria-label="Semester">
+      <option value="">All semesters</option>
+      <option>Autumn</option>
+      <option>Spring</option>
+    </select>
+    <select id="sort" aria-label="Sort">
+      <option value="votes">Most upvoted</option>
+      <option value="new">Newest</option>
+      <option value="title">A–Z</option>
+    </select>
+    <span class="status" id="status">Loading…</span>
+  </div>
+  <div class="tags" id="tagbar"></div>
+
+  <ol id="list"></ol>
+
+  <footer>
+    Data lives in <a id="repo" href="#">GitHub issues</a>. Vote counts refresh live when possible, otherwise from an hourly snapshot.
+  </footer>
+</div>
+
+<script>
+const REPO = "tillwenke/eth-ai-safety-courses";
+const LABEL = "course";
+
+const $ = (id) => document.getElementById(id);
+const state = { courses: [], tag: "" };
+
+$("repo").href = `https://github.com/${REPO}/issues?q=label%3A${LABEL}`;
+$("suggest").href = `https://github.com/${REPO}/issues/new?template=course.yml`;
+
+// Issue forms render as "### Label\n\nvalue" sections.
+function parseBody(body) {
+  const out = {};
+  const parts = (body || "").split(/^###\s+/m).slice(1);
+  for (const part of parts) {
+    const nl = part.indexOf("\n");
+    const key = part.slice(0, nl).trim().toLowerCase();
+    const val = part.slice(nl + 1).trim();
+    if (val && val !== "_No response_") out[key] = val;
+  }
+  return {
+    number: out["course number"],
+    lecturer: out["lecturer(s)"],
+    semester: out["semester"],
+    ects: out["ects"],
+    link: out["link"],
+    tags: (out["tags"] || "").split(",").map((t) => t.trim().toLowerCase()).filter(Boolean),
+    description: out["why is it relevant for ai safety?"] || "",
+  };
+}
+
+function normalize(issues) {
+  return issues
+    .filter((i) => !i.pull_request)
+    .map((i) => ({
+      title: i.title,
+      url: i.html_url,
+      created: i.created_at,
+      votes: (i.reactions && i.reactions["+1"]) || 0,
+      ...parseBody(i.body),
+    }));
+}
+
+async function load() {
+  // Snapshot first (fast, no rate limit), then try the live API for fresh counts.
+  // Unauthenticated API calls are limited to 60/hour per IP, which shared networks can exhaust.
+  try {
+    const r = await fetch("courses.json", { cache: "no-cache" });
+    if (r.ok) { state.courses = normalize(await r.json()); render("snapshot"); }
+  } catch {}
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/issues?labels=${LABEL}&state=open&per_page=100`,
+      { headers: { Accept: "application/vnd.github+json" } });
+    if (!r.ok) throw new Error(r.status);
+    state.courses = normalize(await r.json());
+    render("live");
+  } catch {
+    if (!state.courses.length) $("status").textContent = "Couldn't load courses. Try again later.";
+  }
+}
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function safeUrl(u) { return /^https?:\/\//i.test(u || "") ? u : ""; }
+
+const upIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+
+function render(source) {
+  if (source) state.source = source;
+  const q = $("q").value.trim().toLowerCase();
+  const sem = $("semester").value;
+  const sort = $("sort").value;
+
+  const allTags = [...new Set(state.courses.flatMap((c) => c.tags))].sort();
+  $("tagbar").innerHTML = allTags.map((t) =>
+    `<button class="tag" data-tag="${esc(t)}" aria-pressed="${t === state.tag}">${esc(t)}</button>`).join("");
+
+  let list = state.courses.filter((c) => {
+    if (sem && c.semester !== sem && c.semester !== "Both") return false;
+    if (state.tag && !c.tags.includes(state.tag)) return false;
+    if (!q) return true;
+    return [c.title, c.number, c.lecturer, c.description, c.tags.join(" ")].join(" ").toLowerCase().includes(q);
+  });
+  const cmp = {
+    votes: (a, b) => b.votes - a.votes || a.title.localeCompare(b.title),
+    new: (a, b) => b.created.localeCompare(a.created),
+    title: (a, b) => a.title.localeCompare(b.title),
+  }[sort];
+  list.sort(cmp);
+
+  $("list").innerHTML = list.length ? list.map((c) => {
+    const link = safeUrl(c.link) || c.url;
+    const meta = [c.number, c.lecturer, c.semester && `${c.semester} semester`, c.ects && `${c.ects} ECTS`]
+      .filter(Boolean).map((m) => `<span>${esc(m)}</span>`).join("");
+    return `<li class="course">
+      <a class="vote" href="${esc(c.url)}" target="_blank" rel="noopener" title="Upvote with 👍 on GitHub">
+        ${upIcon}<b>${c.votes}</b><span>upvote</span>
+      </a>
+      <div>
+        <h2><a href="${esc(link)}" target="_blank" rel="noopener">${esc(c.title)}</a></h2>
+        <div class="meta">${meta}</div>
+        <p class="desc">${esc(c.description)}</p>
+        <div class="tags">${c.tags.map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+      </div>
+    </li>`;
+  }).join("") : `<li class="empty">No courses match.</li>`;
+
+  $("status").textContent = `${list.length} course${list.length === 1 ? "" : "s"} · ${state.source === "live" ? "live votes" : "votes from snapshot"}`;
+}
+
+$("q").addEventListener("input", () => render());
+$("semester").addEventListener("change", () => render());
+$("sort").addEventListener("change", () => render());
+$("tagbar").addEventListener("click", (e) => {
+  const t = e.target.closest(".tag");
+  if (!t) return;
+  state.tag = state.tag === t.dataset.tag ? "" : t.dataset.tag;
+  render();
+});
+// Votes are cast on GitHub; refresh when the user comes back to this tab.
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+
+load();
+</script>
+</body>
+</html>

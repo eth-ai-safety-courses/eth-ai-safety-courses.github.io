@@ -1,0 +1,46 @@
+name: Suggest a course
+description: Propose an ETH course relevant to AI safety. A maintainer reviews it before it shows up on the site.
+title: "<Course name>"
+labels: ["suggestion"]
+body:
+  - type: input
+    id: number
+    attributes:
+      label: Course number
+      placeholder: "263-2400-00L"
+  - type: input
+    id: lecturer
+    attributes:
+      label: Lecturer(s)
+  - type: dropdown
+    id: semester
+    attributes:
+      label: Semester
+      options:
+        - Autumn
+        - Spring
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: ects
+    attributes:
+      label: ECTS
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: Course catalogue (VVZ) or course website
+      placeholder: "https://www.vvz.ethz.ch/..."
+  - type: input
+    id: tags
+    attributes:
+      label: Tags
+      description: Comma-separated
+      placeholder: "robustness, interpretability, governance"
+  - type: textarea
+    id: description
+    attributes:
+      label: Why is it relevant for AI safety?
+    validations:
+      required: true

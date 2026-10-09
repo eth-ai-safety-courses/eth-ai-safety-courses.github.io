@@ -1,0 +1,48 @@
+name: Deploy site
+
+# Rebuilds the vote snapshot (courses.json) whenever courses change, and
+# periodically because reactions don't trigger workflow events.
+on:
+  push:
+    branches: [main]
+  issues:
+    types: [opened, edited, closed, reopened, deleted, labeled, unlabeled]
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Snapshot courses and votes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          gh api --paginate "repos/${{ github.repository }}/issues?labels=course&state=open&per_page=100" \
+            | jq -s 'add | map(select(.pull_request | not))
+                     | map({number, title, body, html_url, created_at, reactions: {"+1": .reactions["+1"]}})' \
+            > _site/courses.json
+          echo "$(jq length _site/courses.json) courses"
+
+      - uses: actions/upload-pages-artifact@v3
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
