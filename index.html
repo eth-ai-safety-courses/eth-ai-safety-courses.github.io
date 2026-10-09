@@ -127,7 +127,7 @@
   <header>
     <h1>ETH AI Safety Courses</h1>
     <p class="lede">Courses at ETH Zurich that are useful for working on AI safety, ranked by the community.
-      To upvote, give the course's GitHub issue a 👍 (you need a GitHub account).</p>
+      <strong>Only upvote courses you have taken.</strong> To upvote, give the course's GitHub issue a 👍 (you need a GitHub account).</p>
     <a class="btn" id="suggest" href="#" target="_blank" rel="noopener">+ Suggest a course</a>
   </header>
 
@@ -257,7 +257,7 @@ function render(source) {
     const meta = [c.number, c.lecturer, c.semester && `${c.semester} semester`, c.ects && `${c.ects} ECTS`]
       .filter(Boolean).map((m) => `<span>${esc(m)}</span>`).join("");
     return `<li class="course">
-      <a class="vote" href="${esc(c.url)}" target="_blank" rel="noopener" title="Upvote with 👍 on GitHub">
+      <a class="vote" href="${esc(c.url)}" target="_blank" rel="noopener" title="Taken this course? Upvote with 👍 on GitHub">
         ${upIcon}<b>${c.votes}</b><span>upvote</span>
       </a>
       <div>
