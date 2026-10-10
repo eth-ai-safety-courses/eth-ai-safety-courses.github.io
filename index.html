@@ -106,6 +106,13 @@
   .discuss:hover { text-decoration: underline; }
   .empty { color: var(--muted); text-align: center; padding: 48px 0; }
 
+  .disclaimer {
+    margin: 0 0 24px; padding: 4px 0 4px 16px;
+    border-left: 3px solid var(--vote); color: var(--ink);
+  }
+  .disclaimer p { margin: 0; }
+  .disclaimer .kicker { font: 600 0.75rem Inter, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--vote); margin-bottom: 4px; }
+
   .featured {
     margin: 0 0 24px; padding: 20px; border-radius: var(--radius);
     background: var(--accent-soft); border: 1px solid var(--accent);
@@ -133,6 +140,14 @@
       Took one? Comment on its issue with which parts are relevant to AI safety and why. We may work your comments into the description.</p>
     <a class="btn" id="suggest" href="#" target="_blank" rel="noopener">+ Suggest a course</a>
   </header>
+
+  <aside class="disclaimer">
+    <div class="kicker">Before you start</div>
+    <p>This list assumes you have already decided that a degree is the right path for you. It is not a fixed curriculum.
+      Many students also do fellowships during their studies to get into AI safety.
+      Progress on technical AI safety benefits from people with diverse backgrounds, and AI safety is not a purely technical problem,
+      so engage with the social sciences, policy and governance too.</p>
+  </aside>
 
   <section class="featured">
     <div class="kicker">Start here</div>
